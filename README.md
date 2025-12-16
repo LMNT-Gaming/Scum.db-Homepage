@@ -9,6 +9,8 @@ Eine PHP-basierte Weboberfläche für SCUM-Server mit:
 * Benutzer-Inventar
 
 Die Homepage ist für den Betrieb **im Webroot oder in einem Unterordner** geeignet.
+Ihr müsst selber schauen wie Ihr die Scum.db auf euren Webroot bekommt! Ich nutze node.js für den down & upload in den Webspace jede Std einmal.
+Das führt zu keinen Crashes! Direktes Lesen empfehle ich unter keinen Umständen von euren Dedicated server etc! Immer zuerst Kopieren!
 
 ---
 
