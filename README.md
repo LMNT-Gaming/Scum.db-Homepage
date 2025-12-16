@@ -132,7 +132,7 @@ Die SCUM.db wird **read-only** genutzt, z. B. für:
 Standardpfad:
 
 ```php
-$path = __DIR__ . '/../SCUM.db';
+$path = __DIR__ . '/SCUM.db';
 ```
 
 Falls deine SCUM.db regelmäßig synchronisiert wird:
