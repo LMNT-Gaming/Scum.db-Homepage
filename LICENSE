@@ -1,21 +1,62 @@
-MIT License
+# SCUM Homepage License (Non-Commercial)
 
-Copyright (c) 2025 LMNT-Gaming
+Copyright (c) 2025
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## 1. Erlaubte Nutzung
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Dieses Projekt darf von jeder Person **kostenlos genutzt, kopiert, verändert und weitergegeben** werden, **sofern die Nutzung nicht kommerziell erfolgt**.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Erlaubt ist insbesondere:
+
+* Betrieb der Software für **private oder Community-basierte SCUM-Server**
+* Anpassung und Erweiterung des Codes für eigene Zwecke
+* Weitergabe des unveränderten oder angepassten Codes an andere Communitys
+
+---
+
+## 2. Nicht erlaubte Nutzung
+
+**Nicht erlaubt ist jede Form der kommerziellen Nutzung**, insbesondere:
+
+* Verkauf der Software oder einzelner Bestandteile
+* Nutzung im Rahmen kostenpflichtiger Dienstleistungen
+* Einsatz in Projekten, die direkt oder indirekt Einnahmen generieren
+* Weiterverkauf oder Lizenzierung des Codes an Dritte
+
+Eine kommerzielle Nutzung ist **nur mit ausdrücklicher, schriftlicher Genehmigung des Urhebers** erlaubt.
+
+---
+
+## 3. Weitergabe & Modifikation
+
+* Der ursprüngliche Copyright-Hinweis **muss erhalten bleiben**
+* Diese Lizenz **muss bei Weitergabe vollständig beigelegt werden**
+* Modifizierte Versionen müssen klar als solche gekennzeichnet werden
+
+---
+
+## 4. Haftungsausschluss
+
+DIE SOFTWARE WIRD "WIE BESEHEN" ZUR VERFÜGUNG GESTELLT, OHNE JEGLICHE GARANTIE.
+
+DER URHEBER HAFTET NICHT FÜR SCHÄDEN, DATENVERLUSTE ODER SERVERAUSFÄLLE, DIE DURCH DIE NUTZUNG DER SOFTWARE ENTSTEHEN.
+
+---
+
+## 5. Kompatibilität mit Fremdcode
+
+Falls dieses Projekt Code enthält, der unter einer anderen Lizenz steht, gelten für diesen Code weiterhin die jeweiligen Lizenzbedingungen.
+
+---
+
+## 6. Kontakt & Sondergenehmigungen
+
+Für Anfragen zu **kommerzieller Nutzung**, Sonderlizenzen oder Kooperationen wende dich bitte an den Projektbetreiber.
+
+---
+
+**Kurzfassung:**
+
+> ✔ Nutzen & Anpassen erlaubt
+> ✔ Community-Server erlaubt
+> ❌ Kommerzielle Nutzung verboten
