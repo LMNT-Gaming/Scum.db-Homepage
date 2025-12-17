@@ -354,4 +354,13 @@ Kommerzielle Nutzung: No!
 
 ---
 
+## Vehicle Access Map
+
+Die  Fahrzeugkarte kann aktiviert werden wenn der User ein Shopitem kauft mit dem Namen: "Fahrzeugkompass"
+Das kann geändert werden in der map.php:
+
+* const REQUIRED_ITEM_NAME = 'Fahrzeugkompass'; // dein Itemname
+
+---
+
 Viel Spaß mit deiner **SCUM Homepage** 🧟‍♂️🔥
