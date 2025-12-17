@@ -3,11 +3,24 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/db_function.php';
-require_once __DIR__ . '/../config/topgames.php';
+require_once __DIR__ . '/env_function.php';
 
-const VOTE_VOUCHERS_PER_CLAIM = 1; // pro erkanntem Vote
+load_env(__DIR__ . '/../private/.env');
+function env_int(string $key, int $default): int
+{
+    $v = getenv($key);
+    return ($v === false || $v === '') ? $default : (int)$v;
+}
+function env_str(string $key, string $default = ''): string
+{
+    $v = getenv($key);
+    return ($v === false) ? $default : (string)$v;
+}
 
-function vote_pdo(): PDO { return db(); }
+function vote_pdo(): PDO
+{
+    return db();
+}
 
 function vote_get_state(string $steamId): array
 {
@@ -58,10 +71,17 @@ function vote_is_on_cooldown(?string $nextClaimAfter): bool
 
 function vote_topgames_check(string $playerName): array
 {
-    // Top-Games: /votes/check?server_token=...&playername=...
-    $url = TOPGAMES_API_BASE . '/votes/check?server_token='
-        . urlencode(TOPGAMES_SERVER_TOKEN)
+    $apiBase = rtrim(env_str('TOPGAMES_API_BASE', 'https://api.top-games.net/v1'), '/');
+    $token   = env_str('TOPGAMES_SERVER_TOKEN', '');
+
+    if ($token === '') {
+        return ['ok' => false, 'error' => 'TOPGAMES_SERVER_TOKEN fehlt in .env', 'http' => 0, 'raw' => null];
+    }
+
+    $url = $apiBase . '/votes/check?server_token='
+        . urlencode($token)
         . '&playername=' . urlencode($playerName);
+
 
     $ch = curl_init($url);
     curl_setopt_array($ch, [
@@ -104,7 +124,7 @@ function vote_topgames_check(string $playerName): array
 function vote_claim_and_reward(string $steamId, string $playerName): array
 {
     $pdo = vote_pdo();
-
+$vouchersPerClaim = env_int('VOTE_VOUCHERS_PER_CLAIM', 1);
     // Cooldown aus DB
     $state = vote_get_state($steamId);
     if (vote_is_on_cooldown($state['next_claim_after'])) {
@@ -157,7 +177,8 @@ function vote_claim_and_reward(string $steamId, string $playerName): array
         ]);
 
         // Gutscheine gutschreiben
-        vote_add_vouchers($steamId, VOTE_VOUCHERS_PER_CLAIM);
+        vote_add_vouchers($steamId, $vouchersPerClaim);
+
 
         // log
         $pdo->prepare("
@@ -166,7 +187,7 @@ function vote_claim_and_reward(string $steamId, string $playerName): array
         ")->execute([
             ':sid' => $steamId,
             ':pn'  => $playerName,
-            ':va'  => VOTE_VOUCHERS_PER_CLAIM,
+            ':va' => $vouchersPerClaim,
         ]);
 
         $pdo->commit();
@@ -179,7 +200,7 @@ function vote_claim_and_reward(string $steamId, string $playerName): array
 
     return [
         'status' => 'rewarded',
-        'message' => 'Danke für deinen Vote! +' . VOTE_VOUCHERS_PER_CLAIM . ' Gutschein(e) gutgeschrieben.',
+        'message' => 'Danke für deinen Vote! +' . $vouchersPerClaim . ' Gutschein(e) gutgeschrieben.',
         'votes_total' => $newState['votes_total'],
         'votes_used' => $newState['votes_used'],
         'votes_free' => $newState['votes_free'],
