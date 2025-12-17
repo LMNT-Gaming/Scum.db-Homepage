@@ -11,8 +11,8 @@ function requireSteamLogin(): void {
     }
 
     // Zielseite merken (damit man nach Login zurück kommt)
-    $_SESSION['login_next'] = $_SERVER['REQUEST_URI'] ?? '/scum3/index.php?page=home';
+    $_SESSION['login_next'] = $_SERVER['REQUEST_URI'] ?? '/scum/index.php?page=home';
 
-    header('Location: /auth/steam_login.php');
+    header('Location: /scum/auth/steam_login.php');
     exit;
 }

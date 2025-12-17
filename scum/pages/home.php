@@ -5,6 +5,8 @@ if (empty($_SESSION['steamid'])) {
 }
 
 require_once __DIR__ . '/../functions/scum_user_function.php';
+require_once __DIR__ . '/../functions/server_news_function.php';
+$newsList = news_list(5, true); // nur published
 
 $steamId = (string)$_SESSION['steamid'];
 $userProfile = scum_get_user_profile_by_steamid($steamId);
@@ -247,10 +249,82 @@ if ($lastLogoutTime !== '') {
 
       <div class="center-body">
 
-        <p>Willkommen bei der neuen Seite!</p>
-        <p>Ich weiss schon wieder neu und eine kleine Umstellung, aber darf ja auch mal anders aussehen</p>
-        <h4>Grüße Kelboss</h4>
+        <?php if (empty($newsList)): ?>
+          <p class="muted">Keine News vorhanden.</p>
+        <?php else: ?>
+          <?php foreach ($newsList as $n): ?>
+            <?php
+            $datePretty = (string)($n['created_at'] ?? '');
+            $ts = strtotime($datePretty);
+            if ($ts) $datePretty = date('d.m.Y H:i', $ts);
+            ?>
+
+            <div class="scum-slot news-card" style="margin-bottom:10px;">
+              <div style="display:flex; justify-content:space-between; gap:10px;">
+                <div style="font-weight:800; letter-spacing:.4px;">
+                  <?= htmlspecialchars((string)$n['title']) ?>
+                </div>
+                <div class="muted" style="white-space:nowrap;">
+                  <?= htmlspecialchars($datePretty) ?>
+                </div>
+              </div>
+
+              <?php
+              $bodyText = trim((string)($n['body'] ?? ''));
+
+              // discord_json -> Kategorien holen
+              $cats = [];
+              if (!empty($n['discord_json'])) {
+                $tmp = json_decode((string)$n['discord_json'], true);
+                if (is_array($tmp) && isset($tmp['categories']) && is_array($tmp['categories'])) {
+                  $cats = $tmp['categories'];
+                }
+              }
+              ?>
+
+              <div style="margin-top:8px; color:#e5e7eb;">
+                <?php if ($bodyText !== ''): ?>
+                  <div style="white-space:pre-wrap;"><?= nl2br(htmlspecialchars($bodyText)) ?></div>
+
+                <?php elseif (!empty($cats)): ?>
+                  <?php foreach ($cats as $c): ?>
+                    <?php
+                    $cname = trim((string)($c['name'] ?? ''));
+                    $items = $c['items'] ?? [];
+                    if ($cname === '' || !is_array($items)) continue;
+                    ?>
+                    <?php
+                    $ccolor = (string)($c['color'] ?? '#5865F2');
+                    if (!preg_match('/^#[0-9a-fA-F]{6}$/', $ccolor)) $ccolor = '#5865F2';
+                    ?>
+                    <div style="margin-top:10px; padding-left:10px; border-left:4px solid <?= htmlspecialchars($ccolor) ?>;">
+                      <div style="display:flex; align-items:center; gap:8px;">
+                        <span style="width:10px; height:10px; border-radius:3px; background:<?= htmlspecialchars($ccolor) ?>; display:inline-block;"></span>
+                        <div style="font-weight:900; letter-spacing:1px; text-transform:uppercase;">
+                          <?= htmlspecialchars($cname) ?>
+                        </div>
+                      </div>
+                      <ul style="margin:6px 0 0 18px; padding:0; opacity:.95;">
+                        <?php foreach ($items as $it): ?>
+                          <?php $it = trim((string)$it);
+                          if ($it === '') continue; ?>
+                          <li><?= htmlspecialchars($it) ?></li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </div>
+                  <?php endforeach; ?>
+
+                <?php else: ?>
+                  <div class="muted">—</div>
+                <?php endif; ?>
+              </div>
+
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
+
       </div>
+
 
     </div>
   </section>

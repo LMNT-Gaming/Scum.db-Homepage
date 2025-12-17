@@ -67,7 +67,7 @@ $scum = scum_db_status();
         <a class="nav-btn <?= $currentPage === 'map' ? 'active' : '' ?>" href="index.php?page=map">Serverkarte</a>
         <a class="nav-btn <?= $currentPage === 'squad' ? 'active' : '' ?>" href="index.php?page=squad">Squad</a>
         <a class="nav-btn <?= $currentPage === 'vote_rewards' ? 'active' : '' ?>" href="index.php?page=vote_rewards">Servervotes</a>
-
+        <a class="nav-btn <?= $currentPage === 'stats' ? 'active' : '' ?>" href="index.php?page=stats">Stats</a>
         <?php if (!empty($_SESSION['isAdmin'])): ?>
           <a class="nav-btn <?= $currentPage === 'admin' ? 'active' : '' ?>" href="index.php?page=admin">Admincenter</a>
         <?php endif; ?>

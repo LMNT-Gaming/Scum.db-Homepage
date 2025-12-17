@@ -6,7 +6,7 @@ if (empty($_SESSION['isAdmin'])) {
 }
 
 $adminTab = $_GET['tab'] ?? 'overview';
-$allowedTabs = ['overview', 'requests', 'shop'];
+$allowedTabs = ['overview', 'requests', 'shop', 'news'];
 
 if (!in_array($adminTab, $allowedTabs, true)) {
   $adminTab = 'overview';
@@ -112,16 +112,22 @@ $hasCurrencies = sqlite_has_table($scumDb, 'bank_account_registry_currencies');
 // Balance-Spalte finden
 $balCol = null;
 if ($hasCurrencies) {
-    foreach (['balance', 'amount', 'value', 'currency_amount'] as $c) {
-        if (sqlite_has_column($scumDb, 'bank_account_registry_currencies', $c)) { $balCol = $c; break; }
+  foreach (['balance', 'amount', 'value', 'currency_amount'] as $c) {
+    if (sqlite_has_column($scumDb, 'bank_account_registry_currencies', $c)) {
+      $balCol = $c;
+      break;
     }
-    if ($balCol === null) $balCol = 'balance'; // fallback (wird dann ggf. SQL-Fehler zeigen -> dann wissen wir es)
+  }
+  if ($balCol === null) $balCol = 'balance'; // fallback (wird dann ggf. SQL-Fehler zeigen -> dann wissen wir es)
 }
 
 // Account-Mapping-Tabelle finden (falls vorhanden)
 $acctTable = null;
 foreach (['bank_account_registry', 'bank_account', 'bank_accounts'] as $t) {
-    if (sqlite_has_table($scumDb, $t)) { $acctTable = $t; break; }
+  if (sqlite_has_table($scumDb, $t)) {
+    $acctTable = $t;
+    break;
+  }
 }
 
 // Wenn es eine Account-Tabelle gibt: finde "id" und "user_profile_id"
@@ -129,12 +135,18 @@ $acctIdCol = null;
 $acctUserCol = null;
 
 if ($acctTable) {
-    foreach (['id', 'bank_account_id', 'account_id'] as $c) {
-        if (sqlite_has_column($scumDb, $acctTable, $c)) { $acctIdCol = $c; break; }
+  foreach (['id', 'bank_account_id', 'account_id'] as $c) {
+    if (sqlite_has_column($scumDb, $acctTable, $c)) {
+      $acctIdCol = $c;
+      break;
     }
-    foreach (['user_profile_id', 'user_profile', 'profile_id', 'owner_profile_id'] as $c) {
-        if (sqlite_has_column($scumDb, $acctTable, $c)) { $acctUserCol = $c; break; }
+  }
+  foreach (['user_profile_id', 'user_profile', 'profile_id', 'owner_profile_id'] as $c) {
+    if (sqlite_has_column($scumDb, $acctTable, $c)) {
+      $acctUserCol = $c;
+      break;
     }
+  }
 }
 
 // Join-Strategie:
@@ -144,23 +156,23 @@ $currencyJoinSql = '';
 $selectCurrencies = "0 AS kuna, 0 AS gold";
 
 if ($hasCurrencies) {
-    $selectCurrencies = "
+  $selectCurrencies = "
         COALESCE(k.$balCol, 0) AS kuna,
         COALESCE(g.$balCol, 0) AS gold
     ";
 
-    if ($acctTable && $acctIdCol && $acctUserCol) {
-        $currencyJoinSql = "
+  if ($acctTable && $acctIdCol && $acctUserCol) {
+    $currencyJoinSql = "
         LEFT JOIN $acctTable ba ON ba.$acctUserCol = up.id
         LEFT JOIN bank_account_registry_currencies k ON k.bank_account_id = ba.$acctIdCol AND k.currency_type = 1
         LEFT JOIN bank_account_registry_currencies g ON g.bank_account_id = ba.$acctIdCol AND g.currency_type = 2
         ";
-    } else {
-        $currencyJoinSql = "
+  } else {
+    $currencyJoinSql = "
         LEFT JOIN bank_account_registry_currencies k ON k.bank_account_id = up.id AND k.currency_type = 1
         LEFT JOIN bank_account_registry_currencies g ON g.bank_account_id = up.id AND g.currency_type = 2
         ";
-    }
+  }
 }
 
 $sqlUsers = "
@@ -206,9 +218,11 @@ if ($resUsers) {
 
       <div class="panel-body">
         <div class="admin-nav">
+          <a class="subtab <?= $adminTab === 'news' ? 'active' : '' ?>" href="index.php?page=admin&tab=news">Servernews</a>
           <a class="subtab <?= $adminTab === 'overview' ? 'active' : '' ?>" href="index.php?page=admin&tab=overview">Übersicht</a>
           <a class="subtab <?= $adminTab === 'requests' ? 'active' : '' ?>" href="index.php?page=admin&tab=requests">Anträge</a>
           <a class="subtab <?= $adminTab === 'shop' ? 'active' : '' ?>" href="index.php?page=admin&tab=shop">Shopsettings</a>
+
         </div>
 
         <div class="scum-slot muted" style="margin-top:10px;">
@@ -306,7 +320,10 @@ if ($resUsers) {
 
         <?php elseif ($adminTab === 'shop'): ?>
           <?php require __DIR__ . '/admin_shop.php'; ?>
+        <?php elseif ($adminTab === 'news'): ?>
+          <?php require __DIR__ . '/admin_news.php'; ?>
         <?php endif; ?>
+
 
 
       </div>

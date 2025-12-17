@@ -8,6 +8,14 @@ if (empty($_SESSION['steamid'])) {
 require_once __DIR__ . '/../functions/shop_function.php';
 require_once __DIR__ . '/../functions/shop_request_function.php';
 require_once __DIR__ . '/../functions/shop_category_function.php';
+// ===== Shop-Lock (nur anschauen erlaubt) =====
+$shopLockedUntil = '2025-12-24 18:00:00'; // <-- Datum/Uhrzeit anpassen (Europe/Berlin)
+$shopLocked = time() < strtotime($shopLockedUntil);
+
+function shop_lock_message(string $until): string
+{
+    return 'Der Shop ist bis ' . date('d.m.Y H:i', strtotime($until)) . ' gesperrt. Du kannst weiterhin stöbern, aber aktuell keine Anträge/Käufe erstellen.';
+}
 
 // ===== PRG + Flash (damit Refresh keine POSTs wiederholt) =====
 function flash_set(string $key, string $msg): void
@@ -71,6 +79,11 @@ if ($action === 'delete_request') {
 
 
 /** 2) Kauf/Antrag erstellen */
+if ($action === 'buy' && $shopLocked) {
+    flash_set('error', shop_lock_message($shopLockedUntil));
+    redirect_shop(['t' => time()]);
+}
+
 if ($action === 'buy') {
     $itemId   = (int)($_POST['item_id'] ?? 0);
     $currency = strtoupper((string)($_POST['currency'] ?? ''));
@@ -322,6 +335,13 @@ $myRequests = shop_list_requests_for_user($steamid, 20);
         .main-card {
             margin-top: 6px;
         }
+
+        button:disabled,
+        .subtab:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+            filter: grayscale(35%);
+        }
     </style>
 </header>
 <div class="main-card">
@@ -340,6 +360,11 @@ $myRequests = shop_list_requests_for_user($steamid, 20);
         <?php if ($error): ?>
             <div class="scum-slot" style="margin-top:12px; border-color: rgba(255,80,80,0.65);">
                 ❌ <?= h($error) ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($shopLocked): ?>
+            <div class="scum-slot" style="margin-top:12px; border-color: rgba(255,180,0,0.55);">
+                🔒 <?= h(shop_lock_message($shopLockedUntil)) ?>
             </div>
         <?php endif; ?>
         <?php
@@ -487,7 +512,7 @@ $myRequests = shop_list_requests_for_user($steamid, 20);
                                 <?php foreach (['SCUM_DOLLAR' => 'SCUM-DOLLAR', 'GOLD' => 'GOLD', 'VOUCHER' => 'GUTSCHEIN'] as $cur => $label): ?>
                                     <?php if (!empty($prices[$cur])): ?>
                                         <label class="pay-pill">
-                                            <input type="radio" name="currency" value="<?= h($cur) ?>" required>
+                                            <input type="radio" name="currency" value="<?= h($cur) ?>" required <?= $shopLocked ? 'disabled' : '' ?>>
                                             <span><?= h($label) ?>: <?= (int)$prices[$cur] ?></span>
                                         </label>
                                     <?php endif; ?>
@@ -498,7 +523,7 @@ $myRequests = shop_list_requests_for_user($steamid, 20);
                             <input type="hidden" name="coord_y" id="coord_y_<?= (int)$it['id'] ?>" value="">
 
                             <?php if ($needsCoords): ?>
-                                <button type="button" class="subtab" onclick="openMapPickerForItem(<?= (int)$it['id'] ?>)">
+                                <button type="button" class="subtab" onclick="openMapPickerForItem(<?= (int)$it['id'] ?>)" <?= $shopLocked ? 'disabled' : '' ?>>
                                     📍 Position auf Karte wählen
                                 </button>
                                 <div class="muted" id="coord_preview_<?= (int)$it['id'] ?>" style="font-size:11px;">
@@ -507,7 +532,9 @@ $myRequests = shop_list_requests_for_user($steamid, 20);
                             <?php endif; ?>
 
                             <div class="shop-actions">
-                                <button class="subtab active" type="submit">Kaufen (Antrag)</button>
+                                <button class="subtab active" type="submit" <?= $shopLocked ? 'disabled title="Shop aktuell gesperrt"' : '' ?>>
+                                    Kaufen (Antrag)
+                                </button>
                             </div>
                         </form>
                     </div>

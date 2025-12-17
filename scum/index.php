@@ -68,6 +68,7 @@ $routes = [
   'squad'       => __DIR__ . '/pages/squad.php',
   'vote_rewards' => __DIR__ . '/pages/vote_rewards.php',
   'leaderboard' => __DIR__ . '/pages/leaderboard.php',
+  'stats' => __DIR__ . '/pages/stats.php',
   'admin' => __DIR__ . '/pages/admin.php',
 ];
 
