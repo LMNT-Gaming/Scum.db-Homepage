@@ -111,6 +111,10 @@ VOTE_VOUCHERS_PER_VOTE=1
 
 # ===== Vehicle Map =====
 REQUIRED_ITEM_NAME=Fahrzeugkompass
+
+# ===== Shop Lock (nur anschauen erlaubt) =====
+# Leer lassen oder entfernen, um keine Sperre zu aktivieren
+SHOP_LOCK_UNTIL=2025-12-24 18:01:01
 ```
 
 ---
