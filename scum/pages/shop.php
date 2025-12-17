@@ -8,8 +8,15 @@ if (empty($_SESSION['steamid'])) {
 require_once __DIR__ . '/../functions/shop_function.php';
 require_once __DIR__ . '/../functions/shop_request_function.php';
 require_once __DIR__ . '/../functions/shop_category_function.php';
+require_once __DIR__ . '/../functions/env_function.php';
+load_env(__DIR__ . '/../private/.env'); // nur hier einmal
 // ===== Shop-Lock (nur anschauen erlaubt) =====
-$shopLockedUntil = '2025-12-24 18:00:00'; // <-- Datum/Uhrzeit anpassen (Europe/Berlin)
+$shopLockedUntil = (string)(getenv('SHOP_LOCK_UNTIL') ?: ''); // z.B. "2025-12-24 18:00:00"
+$shopLocked = false;
+
+if ($shopLockedUntil !== '') {
+    $shopLocked = time() < strtotime($shopLockedUntil);
+}
 $shopLocked = time() < strtotime($shopLockedUntil);
 
 function shop_lock_message(string $until): string
