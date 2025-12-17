@@ -1,2 +1,0 @@
-place scum.db hier
-hier die scum.db ablegen
