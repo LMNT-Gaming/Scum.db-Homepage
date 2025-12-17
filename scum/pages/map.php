@@ -11,9 +11,12 @@ $currentPage = 'map';
 // Vehicle Map Access (Website-DB: user_inventory)
 // ─────────────────────────────────────────────────────────────
 require_once __DIR__ . '/../functions/db_function.php';
+require_once __DIR__ . '/../functions/env_function.php';
+load_env(__DIR__ . '/../private/.env');
+
+$requiredItemName = (string)(getenv('REQUIRED_ITEM_NAME') ?: 'Fahrzeugkompass');
 
 
-const REQUIRED_ITEM_NAME = 'Fahrzeugkompass'; // dein Itemname
 $configs = [];
 $regions = [];
 $dbOk = false;
@@ -34,7 +37,7 @@ if ($steamid !== '') {
              WHERE steamid = ? AND item_name = ? 
              LIMIT 1"
             );
-            $stmt->execute([$steamid, REQUIRED_ITEM_NAME]);
+            $stmt->execute([$steamid, $requiredItemName]);
             $VEH_ACCESS_GRANTED = (bool)$stmt->fetchColumn();
         } catch (Throwable $e) {
             $VEH_ACCESS_GRANTED = false;
@@ -548,7 +551,7 @@ function h($s)
                                 <span style="color:#86efac;font-weight:700">✔ aktiv</span>
                             <?php else: ?>
                                 <span style="color:#fca5a5;font-weight:700">✖ gesperrt</span>
-                                <div style="margin-top:4px">Benötigtes Item: <b><?= h(REQUIRED_ITEM_NAME) ?></b></div>
+                                <div style="margin-top:4px">Benötigtes Item: <b><?= h($requiredItemName) ?></b></div>
                             <?php endif; ?>
                         </div>
 
