@@ -45,7 +45,7 @@ Das führt zu keinen Crashes! Direktes Lesen empfehle ich unter keinen Umstände
 │   └── config.php
 ├── pages/
 │   └── shop.php
-├── SCUM.db
+├── scum_db/SCUM.db
 └── index.php
 ```
 
@@ -306,7 +306,7 @@ Die SCUM.db wird **read-only** genutzt, z. B. für:
 Standardpfad:
 
 ```php
-$path = __DIR__ . '/../SCUM.db';
+$path = __DIR__ . '/../scum_db/SCUM.db';
 ```
 
 Falls deine SCUM.db regelmäßig synchronisiert wird:

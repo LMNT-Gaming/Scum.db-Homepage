@@ -97,7 +97,7 @@ $vehiclesForClient = $VEH_ACCESS_GRANTED ? $vehicles : [];
  * - Sonst Fallback auf ../SCUM.db (relativ zu /pages)
  */
 if (!isset($scumDbPath) || !is_string($scumDbPath) || $scumDbPath === '') {
-    $scumDbPath = __DIR__ . '/../SCUM.db';
+    $scumDbPath = __DIR__ . '/../scum_db/SCUM.db';
 }
 
 

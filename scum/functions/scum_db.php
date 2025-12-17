@@ -25,7 +25,7 @@ function getScumDb(): SQLite3
 
     if ($db instanceof SQLite3) return $db;
 
-    $path = __DIR__ . '/../SCUM.db';
+    $path = __DIR__ . '/../scum_db/SCUM.db';
 
     try {
         $db = new SQLite3($path, SQLITE3_OPEN_READONLY);
