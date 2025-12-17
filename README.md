@@ -45,7 +45,7 @@ Das führt zu keinen Crashes! Direktes Lesen empfehle ich unter keinen Umstände
 │   └── config.php
 ├── pages/
 │   └── shop.php
-├── SCUM.db
+├── scum_db/SCUM.db
 └── index.php
 ```
 
