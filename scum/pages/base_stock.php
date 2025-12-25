@@ -35,7 +35,7 @@ function item_image_url(string $itemClass): string
         $itemClass = substr($itemClass, 0, -3);
     }
 
-    return '/../images/items/' . rawurlencode($itemClass) . '.png';
+    return 'https://www.lmnt-gaming.net/images/items/' . rawurlencode($itemClass) . '.png';
 }
 $baseX = null;
 $baseY = null;
