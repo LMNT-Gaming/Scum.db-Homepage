@@ -66,6 +66,7 @@ $routes = [
   'shop'        => __DIR__ . '/pages/shop.php',
   'map'         => __DIR__ . '/pages/map.php',
   'squad'       => __DIR__ . '/pages/squad.php',
+  'base'       => __DIR__ . '/pages/base_stock.php',
   'vote_rewards' => __DIR__ . '/pages/vote_rewards.php',
   'leaderboard' => __DIR__ . '/pages/leaderboard.php',
   'stats' => __DIR__ . '/pages/stats.php',
