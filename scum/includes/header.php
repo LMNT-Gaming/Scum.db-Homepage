@@ -66,6 +66,7 @@ $scum = scum_db_status();
         <a class="nav-btn <?= $currentPage === 'shop' ? 'active' : '' ?>" href="index.php?page=shop">Shop</a>
         <a class="nav-btn <?= $currentPage === 'map' ? 'active' : '' ?>" href="index.php?page=map">Serverkarte</a>
         <a class="nav-btn <?= $currentPage === 'squad' ? 'active' : '' ?>" href="index.php?page=squad">Squad</a>
+        <a class="nav-btn <?= $currentPage === 'base' ? 'active' : '' ?>" href="index.php?page=base">Basis</a>
         <a class="nav-btn <?= $currentPage === 'vote_rewards' ? 'active' : '' ?>" href="index.php?page=vote_rewards">Servervotes</a>
         <a class="nav-btn <?= $currentPage === 'stats' ? 'active' : '' ?>" href="index.php?page=stats">Stats</a>
         <?php if (!empty($_SESSION['isAdmin'])): ?>
@@ -111,6 +112,7 @@ $scum = scum_db_status();
           <a class="nav-btn <?= $currentPage === 'shop' ? 'active' : '' ?>" href="index.php?page=shop">Shop</a>
           <a class="nav-btn <?= $currentPage === 'map' ? 'active' : '' ?>" href="index.php?page=map">Serverkarte</a>
           <a class="nav-btn <?= $currentPage === 'squad' ? 'active' : '' ?>" href="index.php?page=squad">Squad</a>
+          <a class="nav-btn <?= $currentPage === 'base' ? 'active' : '' ?>" href="index.php?page=base">Base</a>
           <a class="nav-btn <?= $currentPage === 'vote_rewards' ? 'active' : '' ?>" href="index.php?page=vote_rewards">Servervotes</a>
 
           <?php if (!empty($_SESSION['isAdmin'])): ?>
@@ -138,6 +140,7 @@ $scum = scum_db_status();
                 <a class="nav-btn <?= $currentPage === 'shop' ? 'active' : '' ?>" href="index.php?page=shop">Shop</a>
                 <a class="nav-btn <?= $currentPage === 'map' ? 'active' : '' ?>" href="index.php?page=map">Karte & Quests</a>
                 <a class="nav-btn <?= $currentPage === 'squad' ? 'active' : '' ?>" href="index.php?page=squad">Squad</a>
+                <a class="nav-btn <?= $currentPage === 'base' ? 'active' : '' ?>" href="index.php?page=base">Base</a>
                 <a class="nav-btn <?= $currentPage === 'vote_rewards' ? 'active' : '' ?>" href="index.php?page=vote_rewards">Servervotes</a>
                 <!--<a class="nav-btn <?= $currentPage === 'leaderboard' ? 'active' : '' ?>" href="index.php?page=leaderboard">Leaderboard</a>-->
                 <?php if (!empty($_SESSION['isAdmin'])): ?>
