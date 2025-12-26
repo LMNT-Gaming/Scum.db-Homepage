@@ -6,7 +6,8 @@ if (empty($_SESSION['isAdmin'])) {
 }
 
 $adminTab = $_GET['tab'] ?? 'overview';
-$allowedTabs = ['overview', 'requests', 'shop', 'news'];
+$allowedTabs = ['overview', 'requests', 'shop', 'news', 'vehicles'];
+
 
 if (!in_array($adminTab, $allowedTabs, true)) {
   $adminTab = 'overview';
@@ -14,6 +15,8 @@ if (!in_array($adminTab, $allowedTabs, true)) {
 
 require_once __DIR__ . '/../functions/scum_db.php';
 require_once __DIR__ . '/../functions/db_function.php';
+require_once __DIR__ . '/../functions/scum_vehicle_function.php';
+require_once __DIR__ . '/../functions/scum_user_function.php'; // für "gehört mir?"
 
 /**
  * Helper: prüft ob eine Spalte in einer SQLite-Tabelle existiert
@@ -222,7 +225,7 @@ if ($resUsers) {
           <a class="subtab <?= $adminTab === 'overview' ? 'active' : '' ?>" href="index.php?page=admin&tab=overview">Übersicht</a>
           <a class="subtab <?= $adminTab === 'requests' ? 'active' : '' ?>" href="index.php?page=admin&tab=requests">Anträge</a>
           <a class="subtab <?= $adminTab === 'shop' ? 'active' : '' ?>" href="index.php?page=admin&tab=shop">Shopsettings</a>
-
+          <a class="subtab <?= $adminTab === 'vehicles' ? 'active' : '' ?>" href="index.php?page=admin&tab=vehicles">Fahrzeuge</a>
         </div>
 
         <div class="scum-slot muted" style="margin-top:10px;">
@@ -322,6 +325,8 @@ if ($resUsers) {
           <?php require __DIR__ . '/admin_shop.php'; ?>
         <?php elseif ($adminTab === 'news'): ?>
           <?php require __DIR__ . '/admin_news.php'; ?>
+        <?php elseif ($adminTab === 'vehicles'): ?>
+          <?php require __DIR__ . '/admin_vehicles.php'; ?>
         <?php endif; ?>
 
 
